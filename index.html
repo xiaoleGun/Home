@@ -67,7 +67,7 @@ already-->
 
 				<!-- Footer -->
 					<footer id="footer">
-						<p class="copyright">您的IP：<script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script type="text/javascript">document.write(returnCitySN["cip"])</script></p> 
+						<p class="copyright"> 您的IP: <span id="ip-address"></span> 您的位置: <span id="ip-location"></span> </p>
 						<p class="copyright"><script>
 							var mydate = new Date();
 							document.writeln("Copyright&nbsp;&copy;&nbsp;2020 - "+mydate.getFullYear()+'&nbsp;xiaoleGun<br />All&nbsp;Rights&nbsp;Reserved');</script></p> 
@@ -84,6 +84,41 @@ already-->
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+            <script>
+                // 使用ajax方法获取api的json数据
+                jQuery.ajax({
+                    type:"GET",
+                    url: "https://ip.useragentinfo.com/json?",
+                    dataType: "json",
+                    success: function(data) {
+                        // 可能获取的数据包含对象，使用stringify方法解析出字符串
+                        var ipObject = JSON.stringify(data);
+                        // 将获取到的字符串(json)解析为javascript对象
+                        var ipData = JSON.parse(ipObject);
+                        // 获取ip
+                        var ipAddress = ipData.ip;
+                        // 获取位置，针对四个直辖市不重复
+                        switch (ipData.province) {
+                            case "北京市":
+                            case "天津市":
+                            case "上海市":
+                            case "重庆市":
+                                var location = ipData.city;
+                                break;
+                            default:
+                                var location = ipData.province + " " + ipData.city;
+                        }
+                        // 获取isp
+                        // var isp = ipData.isp;
+
+                        // 通过getElementById方法在footer调用
+                        document.getElementById("ip-address").innerHTML = ipAddress
+                        document.getElementById("ip-location").innerHTML = location
+                        // document.getElementById("ip-isp").innerHTML = isp
+                    }
+                });
+            </script>
 
 	</body>
 </html>
