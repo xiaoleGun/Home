@@ -85,6 +85,7 @@ already-->
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
+            <!-- 获取IP和位置 -->
             <script>
                 // 使用ajax方法获取api的json数据
                 jQuery.ajax({
@@ -120,5 +121,10 @@ already-->
                 });
             </script>
 
+            <!-- 随机Background -->
+            <script>
+                var images = ['miku1.png','miku2.jpg','miku3.jpg','ccp1.jpg','ccp2.jpg', 'ccp3.jpg', 'ccp4.jpg'];
+                document.head.insertAdjacentHTML('beforeend', '<style>#bg:after{background-image:url(images/bg/' + images[Math.floor(Math.random()*images.length)]+')}<\/style>');
+            </script>
 	</body>
 </html>
